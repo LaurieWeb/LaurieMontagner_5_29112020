@@ -1,0 +1,50 @@
+.panier__total {
+    &__card {
+    padding: 20px;
+    }
+    &__price {
+        border: double;
+        border-radius: 5px;
+        padding: 5px;
+        margin: auto;
+        margin-bottom: 20px;
+    }
+}
+
+.totalprice {
+    text-align: right;
+}
+
+.panier {
+    &__title {
+        border: double;
+        border-radius: 5px;
+        padding: 5px;
+    }
+    &__item {
+        border: 2px solid $primary;
+        border-radius: 5px;
+        display: flex;
+        padding: 5px;
+        position: relative;
+        margin-bottom: 20px;
+        &__card {
+            padding: 20px;
+            min-height: 645px;
+        }
+        &__thumb {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        &__body {
+            margin-left: 30px;
+        }
+        &__price {
+            position: absolute;
+            right: 35px;
+            bottom: 15px;
+        }
+    }
+}

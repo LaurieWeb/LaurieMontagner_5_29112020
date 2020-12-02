@@ -1,0 +1,53 @@
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 2;
+}
+
+
+.nav-link {
+    transition: 250ms;
+    border-radius: 5px;
+    &:hover {
+        color: $primary!important;
+        background-color: lighten($color: $dark, $amount: 10);
+    }
+}
+
+main {
+    margin-top: 150px;
+}
+
+.intro {
+    background-color: $primary;
+    border-radius: 15px;
+}
+
+.main__title {
+    font-weight: lighter;
+    font-size: xx-large;    
+    text-shadow: -1px -1px 1px white;
+}
+
+.img-home {
+    max-height: 300px;
+    object-fit: cover;
+}
+
+.footer__title {
+    font-size: medium;
+}
+
+.fa-chair {
+    margin-right: 4px;
+}
+
+
+.product__link {
+    color: black;
+    transition: 200ms;
+        &:hover {
+            text-decoration: none;
+        }
+}

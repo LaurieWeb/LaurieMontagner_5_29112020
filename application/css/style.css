@@ -7795,11 +7795,113 @@ a.text-dark:hover, a.text-dark:focus {
   .table .thead-dark th {
     color: inherit;
     border-color: #dee2e6; } }
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 2; }
+
+.nav-link {
+  transition: 250ms;
+  border-radius: 5px; }
+  .nav-link:hover {
+    color: #f6e8f2 !important;
+    background-color: #4b545c; }
+
+main {
+  margin-top: 150px; }
+
 .intro {
   background-color: #f6e8f2;
   border-radius: 15px; }
 
+.main__title {
+  font-weight: lighter;
+  font-size: xx-large;
+  text-shadow: -1px -1px 1px white; }
+
+.img-home {
+  max-height: 300px;
+  object-fit: cover; }
+
 .footer__title {
   font-size: medium; }
+
+.fa-chair {
+  margin-right: 4px; }
+
+.product__link {
+  color: black;
+  transition: 200ms; }
+  .product__link:hover {
+    text-decoration: none; }
+
+.panier__total__card {
+  padding: 20px; }
+.panier__total__price {
+  border: double;
+  border-radius: 5px;
+  padding: 5px;
+  margin: auto;
+  margin-bottom: 20px; }
+
+.totalprice {
+  text-align: right; }
+
+.panier__title {
+  border: double;
+  border-radius: 5px;
+  padding: 5px; }
+.panier__item {
+  border: 2px solid #f6e8f2;
+  border-radius: 5px;
+  display: flex;
+  padding: 5px;
+  position: relative;
+  margin-bottom: 20px; }
+  .panier__item__card {
+    padding: 20px;
+    min-height: 645px; }
+  .panier__item__thumb {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 5px; }
+  .panier__item__body {
+    margin-left: 30px; }
+  .panier__item__price {
+    position: absolute;
+    right: 35px;
+    bottom: 15px; }
+
+.confirm {
+  background-color: #f6e8f2;
+  border-radius: 15px;
+  height: 300px;
+  padding: 20px; }
+  .confirm__text {
+    margin-top: 30px; }
+
+.return {
+  width: 100%;
+  height: 50px;
+  background-color: #e8c3dd;
+  border-radius: 15px;
+  transition: 250ms; }
+  .return:hover {
+    background-color: #f6e8f2; }
+
+.button__basket {
+  width: 100%;
+  height: 50px;
+  background-color: #e8c3dd;
+  border-radius: 15px;
+  transition: 250ms; }
+  .button__basket:hover {
+    background-color: #f6e8f2; }
+
+.img-produit {
+  height: 500px;
+  object-fit: cover; }
 
 /*# sourceMappingURL=style.css.map */
