@@ -35,26 +35,10 @@
   </header>
   <main>
     <div class="container">
-        <div class="row my-4 mx-0">
-            <div class="mx-auto col-12 col-lg-6">
-                <div class="card mb-4 border-primary shadow">
-                    <img src="C:\Users\Laurie\Documents\OPENCLASSROOM\P5\LaurieMontagner_5_29112020\serveur\images\teddy_1.jpg" alt="Ourson en peluche brun" class="card-img-top img-produit">
-                </div>
-            </div>
-            <div class="mx-auto col-12 col-lg-4">
-                <h1 class="product__name">Cannelle</h1>
-                <p class="product__price">16,00€</p>
-                <p class="product__description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam sed urna eu velit tincidunt viverra quis sit amet justo. Quisque consequat neque purus, eget finibus sapien vehicula non. Suspendisse eu lectus purus. Sed est risus, malesuada eget fermentum eget, fermentum non velit.</p>
-                <form method="post" action="">
-                    <p>
-                        <select name="couleur" id="couleur">
-                            <option value="brun">Brun</option>
-                            <option value="blond">Blond</option>
-                        </select>
-                    </p>
-                 </form>
-                 <button class="button__basket"><i class="fas fa-shopping-basket"></i> Ajouter au Panier</button>
-            </div>
+        <div class="row my-4 mx-0" id="produit">
+              <div id="error" class="col-12 text-center">
+                <i class="fas fa-exclamation-triangle"></i> Une erreur est survenue, merci de réessayer plus tard.
+              </div>
         </div>
     </div>
   </main>
@@ -64,8 +48,8 @@
         <div class="col-12 col-md-4">
           <ul class="list-inline text-light text-left">
             <li><h2 class="footer__title">Nos autres app :</h2></li>
-            <li><a href="#"><i class="fas fa-video"></i>  Oricam</a></li>
-            <li><a href="#"><i class="fas fa-chair"></i>  Oriwood</a></li>
+            <li><a href="#" alt="Oricam, vente de caméra"><i class="fas fa-video"></i>  Oricam</a></li>
+            <li><a href="#" alt="Oriwood, vente de meubles en bois"><i class="fas fa-chair"></i>  Oriwood</a></li>
           </ul>
         </div>
         <div class="col-12 col-md-4">
@@ -94,5 +78,7 @@
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+   <!-- Script API-->
+   <script src="js/produit.js"></script>
 </body>
 </html>

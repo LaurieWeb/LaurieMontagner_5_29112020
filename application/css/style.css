@@ -7811,6 +7811,9 @@ header {
 main {
   margin-top: 150px; }
 
+#error {
+  min-height: 500px; }
+
 .intro {
   background-color: #f6e8f2;
   border-radius: 15px; }
