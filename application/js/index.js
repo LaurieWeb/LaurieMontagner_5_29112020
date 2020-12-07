@@ -33,6 +33,7 @@ getAllTeddies = () => {
 		  error = document.getElementById("error");
 		  error.remove(); // Supprime le message d'erreur de connection
 		} else {
+			console.log("Erreur de connection");
 		}
 	  };
 	  request.open("GET", url);
@@ -42,7 +43,7 @@ getAllTeddies = () => {
 
 // Créé tableau contenu pour chaque articles
 const affichageProduits = async () => {
-  const products = await getAllTeddies(url); // récupérer sur la fonction getAllTeddies
+  const products = await getAllTeddies(); // récupérer sur la fonction getAllTeddies
   products.forEach((product) => {
     renderProduct(product.name, product._id, product.imageUrl, product.price);
   });
