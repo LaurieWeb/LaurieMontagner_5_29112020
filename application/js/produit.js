@@ -3,7 +3,7 @@
 if(localStorage.getItem("userPanier")){
 	console.log("Administration : le panier de l'utilisateur existe dans le localStorage");
 }else{
-	console.log("Administration : Le panier n'existe pas, il va être créé et envoyer vers le localStorage");
+	console.log("Administration : Le panier n'existe pas, il va être créé et envoyé vers le localStorage");
   	//Le panier est un tableau de produits
   	let panierInit = [];
   	localStorage.setItem("userPanier", JSON.stringify(panierInit));
@@ -12,11 +12,26 @@ if(localStorage.getItem("userPanier")){
   	//Tableau et objet demandé par l'API pour la commande
   	let contact;
 	let products = [];
-	let colorschoise = []
 
 	//L'user a maintenant un panier
 	let userPanier = JSON.parse(localStorage.getItem("userPanier"));
 
+	if(localStorage.getItem("colorChoise")){
+		console.log("Administration : le choix de la couleur existe dans le localStorage");
+	}else{
+		console.log("Administration : le choix de la couleur n'existe pas, il va être créé et envoyé vers le localStorage");
+		  //Le panier est un tableau de produits
+		  let colorInit = [];
+		  localStorage.setItem("colorChoise", JSON.stringify(colorInit));
+	  };
+	
+		  //Tableau et objet demandé par l'API pour la commande
+
+		let colorTeddy = [];
+	
+		//L'user a maintenant un panier
+		let colorChoise = JSON.parse(localStorage.getItem("colorChoise"));
+	
 
 /******
  * Récupérer l'id contenue dans l'URL
@@ -101,6 +116,7 @@ function renderTeddy(productColor, productName, productId, productImg, productPr
 
 	productColor.forEach(function(color) {
 		const choix = document.createElement("option");
+		choix.id = `${color}`;
   		choix.innerHTML = `${color}`;
   		colorSelect.appendChild(choix);
 	})
@@ -108,11 +124,31 @@ function renderTeddy(productColor, productName, productId, productImg, productPr
 
 affichageProduits();
 
+
+var selectedList = [],
+    selectBox = document.getElementById("couleur"),
+    i;
+ 
+for (i=0; i < selectBox.options.length; i++) 
+{
+	if (selectBox.options[i].selected) 
+	{
+		selectedList.push(selectBox.options[i]);
+	}
+}
+
+/****** 
 const colorSelect = document.getElementById("couleur");
 colorSelect.addEventListener('change', function(event) {
 	const colorchoise = event.target.value;
 	console.log(colorchoise)
-}); // choix de la couleur enregistré, mais comment l'envoyer ??
+	let colorChoise = JSON.parse(localStorage.getItem("colorChoise"));
+	colorChoise.push(colorchoise);
+	localStorage.setItem("colorChoise", JSON.stringify(colorChoise));
+	console.log(colorChoise)
+	console.log("Administration : la couleur a été ajouté au panier");
+}); */
+
 
 const ajoutPanier = document.getElementById("ajoutpanier");
 ajoutPanier.addEventListener("click", async function(event) {
@@ -123,6 +159,25 @@ ajoutPanier.addEventListener("click", async function(event) {
 	userPanier.push(produits);
 	localStorage.setItem("userPanier", JSON.stringify(userPanier));
 	console.log(userPanier)
+
+	var selectedList = [],
+		selectBox = document.getElementById("couleur"),
+		i;
+
+	for (i=0; i < selectBox.options.length; i++) 
+	{
+	if (selectBox.options[i].selected) 
+	{
+		colorName = selectBox.options[i].text;
+		selectedList.push(colorName);
+	}
+	}
+
+	let colorChoise = JSON.parse(localStorage.getItem("colorChoise"));
+	colorChoise.push(selectedList);
+	localStorage.setItem("colorChoise", JSON.stringify(colorChoise));
+	console.log(colorChoise)
 	console.log("Administration : le produit a été ajouté au panier");
 	alert("Ce produit a bien été ajouté à votre panier !")
+	window.location.href="panier.html"
 	});

@@ -39,74 +39,44 @@
             <div class="mx-auto col-12 col-lg-7">
                 <div class="card mb-4 border-primary shadow panier__item__card">
                    <h1 class="panier__title">Panier</h1>
-                   <div class="panier__item">
-                            <img src="C:\Users\Laurie\Documents\OPENCLASSROOM\P5\LaurieMontagner_5_29112020\serveur\images\teddy_1.jpg" alt="Ourson en peluche brun" class="panier__item__thumb">
-                        <div class="panier__item__body">
-                            <h2 class="panier__item__name">Cannelle</h2>
-                            <p class="panier__item__option">Option choisie</p>
-                            <span class="panier__item__price">23€</span>
-                        </div>
+                   <div id="panierVide">
+                    <p class="text-center">Votre panier est vide.</p>
+                    <a  href="index.html"><button class="return">Retour à la boutique</button></a>
                    </div>
-                   <div class="panier__item">
-                            <img src="C:\Users\Laurie\Documents\OPENCLASSROOM\P5\LaurieMontagner_5_29112020\serveur\images\teddy_1.jpg" alt="Ourson en peluche brun" class="panier__item__thumb">
-                        <div class="panier__item__body">
-                            <h2 class="panier__item__name">Cannelle</h2>
-                            <p class="panier__item__option">Option choisie</p>
-                            <span class="panier__item__price">23€</span>
-                        </div>
-                    </div>
-                    <div class="panier__item">
-                            <img src="C:\Users\Laurie\Documents\OPENCLASSROOM\P5\LaurieMontagner_5_29112020\serveur\images\teddy_1.jpg" alt="Ourson en peluche brun" class="panier__item__thumb">
-                        <div class="panier__item__body">
-                            <h2 class="panier__item__name">Cannelle</h2>
-                            <p class="panier__item__option">Option choisie</p>
-                            <span class="panier__item__price">23€</span>
-                        </div>
-                    </div>
-                    <div class="panier__item">
-                            <img src="C:\Users\Laurie\Documents\OPENCLASSROOM\P5\LaurieMontagner_5_29112020\serveur\images\teddy_1.jpg" alt="Ourson en peluche brun" class="panier__item__thumb">
-                        <div class="panier__item__body">
-                            <h2 class="panier__item__name">Cannelle</h2>
-                            <p class="panier__item__option">Option choisie</p>
-                            <span class="panier__item__price">23€</span>
-                        </div>
-                    </div>
-                    <div class="panier__item">
-                            <img src="C:\Users\Laurie\Documents\OPENCLASSROOM\P5\LaurieMontagner_5_29112020\serveur\images\teddy_1.jpg" alt="Ourson en peluche brun" class="panier__item__thumb">
-                        <div class="panier__item__body">
-                            <h2 class="panier__item__name">Cannelle</h2>
-                            <p class="panier__item__option">Option choisie</p>
-                            <span class="panier__item__price">23€</span>
-                        </div>
-                    </div>
+                   <div id="panierContainer">
+
+                   </div>
+                   <div id="clearPanier" class="invisible">
+                    <button class="return">Vider le panier</button>
+                   </div>
                 </div>
             </div>
             <div class="mx-auto col-12 col-lg-4">
                 <div class="card mb-4 border-primary shadow panier__total__card ">
-                    <h2 class="panier__total__price">Total : <span class="totalprice">--,--</span> €</h2>
+                    <h2 class="panier__total__price">Total : <span id="totalprice" class="totalprice"></span> €</h2>
                     <p>Merci de remplir tous les champs pour valider votre commande :</p>
-                    <form method="post" action="confirm.html"> 
+                    <form id="formulaire" method="post" action="confirm.html"> 
                         <div class="form-group">                    
                             <label for="nom">Nom :</label>
-                            <input type="text" class="form-control" name="nom" id="nom" />
+                            <input type="text" class="form-control" name="nom" id="nom" pattern="[A-Za-zÀ-ÖØ-öø-ÿ' ._-]+$" title="Lettres, apostrophes et tirets uniquement." placeholder="Renseignez votre nom de famille" required/>
                         </div>
                         <div class="form-group">
                             <label for="prenom">Prénom :</label>
-                            <input type="text" class="form-control" name="prenom" id="prenom" />
+                            <input type="text" class="form-control" name="prenom" id="prenom" pattern="[A-Za-zÀ-ÖØ-öø-ÿ' ._-]+$" title="Lettres, apostrophes et tirets uniquement." placeholder="Renseignez votre prénom" required/>
                         </div>
                         <div class="form-group">
                             <label for="email">E-mail :</label>
-                            <input type="email" class="form-control" name="email" id="email" />
+                            <input type="email" class="form-control" name="email" id="email" title="exemple@exemple.com" placeholder="Renseignez votre adresse e-mail" required/>
                         </div>  
                         <div class="form-group">
                             <label for="adresse">Adresse :</label>
-                            <input type="text" class="form-control" name="adresse" id="adresse" />
+                            <input type="text" class="form-control" name="adresse" id="adresse" pattern="[A-Za-zÀ-ÖØ-öø-ÿ0-9' ._-]+$" title="Lettres, chiffres, apostrophes et tirets uniquement." placeholder="Renseignez votre adresse postale" required/>
                         </div>
                         <div class="form-group">
                             <label for="ville">Ville :</label>
-                            <input type="text" class="form-control" name="ville" id="ville" />
+                            <input type="text" class="form-control" name="ville" id="ville" pattern="[A-Za-zÀ-ÖØ-öø-ÿ' ._-]+$" title="Lettres, apostrophes et tirets uniquement." placeholder="Renseignez votre ville" required/>
                         </div>
-                        <button type="submit" class="btn btn-primary">Envoyer</button>
+                        <button id="orderbutton" type="submit" class="btn btn-primary">Envoyer</button>
                     </form>   
                 </div>
             </div>
