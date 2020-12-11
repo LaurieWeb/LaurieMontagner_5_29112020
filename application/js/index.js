@@ -1,23 +1,18 @@
-// Créé un panier dans localstorage
+/********* Préparation du panier dans localStorage **********/
 
 if(localStorage.getItem("userPanier")){
-	console.log("Administration : le panier de l'utilisateur existe dans le localStorage");
+	console.log("Administration : le panier de l'utilisateur existe dans le localStorage"); // Panier déjà existant, on ne fait rien
 }else{
-	console.log("Administration : Le panier n'existe pas, il va être créé et envoyer vers le localStorage");
-  	//Le panier est un tableau de produits
-  	let panierInit = [];
-  	localStorage.setItem("userPanier", JSON.stringify(panierInit));
+	console.log("Administration : Le panier n'existe pas, il va être créé et envoyé dans localStorage");
+  	
+  	let panierInit = []; //Le panier est un tableau de produits
+  	localStorage.setItem("userPanier", JSON.stringify(panierInit)); // Envoi vers localStorage
   };
 
-  	//Tableau et objet demandé par l'API pour la commande
-  	let contact;
-  	let products = [];
-
-	//L'user a maintenant un panier
-	let userPanier = JSON.parse(localStorage.getItem("userPanier"));
+let userPanier = JSON.parse(localStorage.getItem("userPanier")); // Récupération du panier de l'utilisateur
 
 
-
+/****************** Appel de l'API des nounours ***********/
 
 // URL de l'api des nounours
 const url = "http://localhost:3000/api/teddies";
@@ -41,13 +36,17 @@ getAllTeddies = () => {
 	});
   };
 
-// Créé tableau contenu pour chaque articles
+/********* Récupération des données *********/
+
+// Création du tableau de contenu pour chaque articles
 const affichageProduits = async () => {
-  const products = await getAllTeddies(); // récupérer sur la fonction getAllTeddies
+  const products = await getAllTeddies(); // Récupérer les produits sur la fonction getAllTeddies
   products.forEach((product) => {
     renderProduct(product.name, product._id, product.imageUrl, product.price);
   });
 };
+
+/********* Mise en page ***************/
 
 // Affichage liste des articles
 function renderProduct(productName, productId, productImg, productPrice) {

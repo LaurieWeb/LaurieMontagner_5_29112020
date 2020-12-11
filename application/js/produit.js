@@ -1,55 +1,33 @@
-// Créé un panier dans localstorage
+/********* Préparation du panier dans localStorage **********/
 
 if(localStorage.getItem("userPanier")){
-	console.log("Administration : le panier de l'utilisateur existe dans le localStorage");
+	console.log("Administration : le panier de l'utilisateur existe dans le localStorage"); // Panier déjà existant, on ne fait rien
 }else{
 	console.log("Administration : Le panier n'existe pas, il va être créé et envoyé vers le localStorage");
-  	//Le panier est un tableau de produits
-  	let panierInit = [];
-  	localStorage.setItem("userPanier", JSON.stringify(panierInit));
+  
+  	let panierInit = [];	// Le panier est un tableau de produits
+  	localStorage.setItem("userPanier", JSON.stringify(panierInit)); // Envoi vers localStorage
   };
 
-  	//Tableau et objet demandé par l'API pour la commande
-  	let contact;
-	let products = [];
-
-	//L'user a maintenant un panier
+//L'user a maintenant un panier
 	let userPanier = JSON.parse(localStorage.getItem("userPanier"));
 
+/********* Préparation du choix de la couleur dans localStorage ***********/
+
 	if(localStorage.getItem("colorChoise")){
-		console.log("Administration : le choix de la couleur existe dans le localStorage");
+		console.log("Administration : le choix de la couleur existe dans le localStorage"); // Choix de la couleur déjà existant, on ne fait rien
 	}else{
 		console.log("Administration : le choix de la couleur n'existe pas, il va être créé et envoyé vers le localStorage");
-		  //Le panier est un tableau de produits
-		  let colorInit = [];
-		  localStorage.setItem("colorChoise", JSON.stringify(colorInit));
+		  
+		  let colorInit = []; // Le choix de la couleur est un tableau des couleurs choisies
+		  localStorage.setItem("colorChoise", JSON.stringify(colorInit)); // Envoi vers localStorage
 	  };
 	
-		  //Tableau et objet demandé par l'API pour la commande
-
-		let colorTeddy = [];
-	
-		//L'user a maintenant un panier
+//L'user a maintenant un selecteur de couleur
 		let colorChoise = JSON.parse(localStorage.getItem("colorChoise"));
 	
 
-/******
- * Récupérer l'id contenue dans l'URL
- * 
- * Appeler l'API et supprimer message d'erreur (?)
- * 
- * Récupérer l'objet dont l'id correspond à celle de l'URL (?)
- * 
- * Créer tableau avec contenu objet et leur donner des clés
- * 	Idem pour le tableau des couleurs (tableau dans un tableau ?)
- * 
- * faire une fonction d'affichage :
- **** Récupérer la div qui contient le contenu
- **** créer mise en page (colonne image, colonne texte)
- **** ajouter les classes
- **** ajouter du inner html + les clés du tableau pour remplir contenu
- ******** pour la liste des options ?
- */
+/****************** Appel de l'API d'un seul nounours ***********/
 
 
 // URL de l'api des nounours
@@ -60,7 +38,7 @@ getTeddy = (id) => {
 	return new Promise((resolve) => {
 	  let request = new XMLHttpRequest();
 	  request.onreadystatechange = function () {
-		if (this.readyState == XMLHttpRequest.DONE && this.status == 200) { // si la requête a abouti
+		if (this.readyState == XMLHttpRequest.DONE && this.status == 200) { // Si la requête a abouti
 		  resolve(JSON.parse(this.responseText));
 		  console.log("Connecté");
 		  const error = document.getElementById("error");
@@ -71,95 +49,79 @@ getTeddy = (id) => {
 		} else {
 		}
 	  };
-	  request.open("GET", urlServer + id);
+	  request.open("GET", urlServer + id); // Envoi de la requête avec l'URL de l'API + l'id du nounours
 	  request.send();
 	});
   };
 
+// Récupération de l'ID du nounours dans l'URL
 var url_string = window.location.href;
 var url = new URL(url_string);
 var id = url.searchParams.get("id");
 
+/********* Récupération des données *********/
 
-// Créé tableau de contenu pour chaque articles
+// Création du tableau de contenu le nounours
 const affichageProduits = async () => {
 	const product = await getTeddy(id);
 	console.log(product);
     renderTeddy(product.colors, product.name, product._id, product.imageUrl, product.price, product.description);
 }
 
+/******** Mise en page ***********/
 
 // Affichage liste des articles
 function renderTeddy(productColor, productName, productId, productImg, productPrice, productDescription) {
-  const produits = document.getElementById("produit"); // Récupère le bloc qui contient les articles
+  const produits = document.getElementById("produit"); // Récupération du bloc qui contient le produit
 
-  const articleImg = document.createElement("div"); // Créé la card de l'image
+  const articleImg = document.createElement("div"); // Créé la div de l'image
   articleImg.classList.add("col-12");  
   articleImg.classList.add("col-lg-6");
   articleImg.classList.add("mx-auto");  // Ajoute des classes pour la mise en page
 
-  articleImg.innerHTML = `<img src="${productImg}" alt="${productName}" class="card-img-top img-produit">`; // Ajoute le contenu des articles à la card d'article
+  articleImg.innerHTML = `<img src="${productImg}" alt="${productName}" class="card-img-top img-produit">`; // Ajoute l'image à la div de l'image
 
-  const articleDetails = document.createElement("div"); // Créé la card de l'image
+  const articleDetails = document.createElement("div"); // Créé la div qui contient les détails
   articleDetails.classList.add("col-12");  
   articleDetails.classList.add("col-lg-4");
   articleDetails.classList.add("mx-auto");
   articleDetails.classList.add("articledetails");  // Ajoute des classes pour la mise en page
 
   articleDetails.innerHTML = `<h1 class="product__name my-5">${productName}</h1><p class="product__price">${productPrice / 100} €</p>
-  <p class="product__description my-4">${productDescription}</p>`; // Ajoute le contenu des articles à la card d'article
+  <p class="product__description my-4">${productDescription}</p>`; // Ajoute les détails de l'articls à la div des détails
 
   produits.appendChild(articleImg);
-  produits.appendChild(articleDetails); // Créé les bloc articles en enfants du bloc produits
+  produits.appendChild(articleDetails); // Créé les blocs images et détails de l'article en enfants du bloc produits
 
   const colorSelect = document.getElementById("couleur"); // Récupère le bloc qui contient le choix d'option
 
-	productColor.forEach(function(color) {
+	productColor.forEach(function(color) { // Fonction qui récupère pour chaque nounours ses différents options de couleur
 		const choix = document.createElement("option");
 		choix.id = `${color}`;
   		choix.innerHTML = `${color}`;
-  		colorSelect.appendChild(choix);
-	})
+  		colorSelect.appendChild(choix); // Création et mise en page d'une option pour chaque option de couleur
+	}) 
 }
 
 affichageProduits();
 
-
-var selectedList = [],
-    selectBox = document.getElementById("couleur"),
-    i;
- 
-for (i=0; i < selectBox.options.length; i++) 
-{
-	if (selectBox.options[i].selected) 
-	{
-		selectedList.push(selectBox.options[i]);
-	}
-}
-
-/****** 
-const colorSelect = document.getElementById("couleur");
-colorSelect.addEventListener('change', function(event) {
-	const colorchoise = event.target.value;
-	console.log(colorchoise)
-	let colorChoise = JSON.parse(localStorage.getItem("colorChoise"));
-	colorChoise.push(colorchoise);
-	localStorage.setItem("colorChoise", JSON.stringify(colorChoise));
-	console.log(colorChoise)
-	console.log("Administration : la couleur a été ajouté au panier");
-}); */
+/********** Ajout du produit au panier  ****************/
 
 
 const ajoutPanier = document.getElementById("ajoutpanier");
-ajoutPanier.addEventListener("click", async function(event) {
+
+ajoutPanier.addEventListener("click", async function(event) { // Ecouter le clic sur le bouton d'ajout au panier
 	event.preventDefault();
+
 	const produits = await getTeddy(id);
-	// Récupération du panier dans le localStorage et ajout du produit et renvoie
+
+	// Récupération du panier dans le localStorage, ajout du produit et renvoi
 	let userPanier = JSON.parse(localStorage.getItem("userPanier"));
 	userPanier.push(produits);
 	localStorage.setItem("userPanier", JSON.stringify(userPanier));
 	console.log(userPanier)
 
+	// Récupération du choix de l'utilisateur pour la couleur 
 	var selectedList = [],
 		selectBox = document.getElementById("couleur"),
 		i;
@@ -173,11 +135,16 @@ ajoutPanier.addEventListener("click", async function(event) {
 	}
 	}
 
+	//	Récupération du tableau de choix de la couleur dans localStorage
 	let colorChoise = JSON.parse(localStorage.getItem("colorChoise"));
-	colorChoise.push(selectedList);
-	localStorage.setItem("colorChoise", JSON.stringify(colorChoise));
+	colorChoise.push(selectedList); // Ajout de la couleur choisie au tableau
+	localStorage.setItem("colorChoise", JSON.stringify(colorChoise)); // Renvoi sur localStorage
 	console.log(colorChoise)
+
+	// Confirmation d'ajout au panier
 	console.log("Administration : le produit a été ajouté au panier");
 	alert("Ce produit a bien été ajouté à votre panier !")
+
+	// Redirection vers la page panier
 	window.location.href="panier.html"
 	});

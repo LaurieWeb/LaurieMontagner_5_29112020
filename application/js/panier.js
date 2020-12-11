@@ -1,55 +1,44 @@
-// Créé un panier dans localstorage
+/*********** Récupération du panier et du choix de la couleur dans localStorage **********/
 
-if(localStorage.getItem("userPanier")){
-	console.log("Administration : le panier de l'utilisateur existe dans le localStorage");
-}else{
-	console.log("Administration : Le panier n'existe pas, il va être créé et envoyer vers le localStorage");
-  	//Le panier est un tableau de produits
-  	let panierInit = [];
-  	localStorage.setItem("userPanier", JSON.stringify(panierInit));
-  };
+let userPanier = JSON.parse(localStorage.getItem("userPanier"));
 
-//Tableau et objet demandé par l'API pour la commande
+let colorChoise = JSON.parse(localStorage.getItem("colorChoise"));
+
+//Initialisation du tableau et objet demandé par l'API /order pour la commande
 let contact;
 let products = [];
 
-//L'user a maintenant un panier
-let userPanier = JSON.parse(localStorage.getItem("userPanier"));
-console.log(userPanier.length);
-console.log(userPanier)
-
-let colorChoise = JSON.parse(localStorage.getItem("colorChoise"));
-console.log(colorChoise);
+/*************** Vérification de remplissage du panier et mise en page ****************/
 
 
-//Vérifie si il y a un produit dans le panier
 if(userPanier.length > 0){
-         //S'il n'est pas vide on supprime le message de panier vide
+         // Si il n'est pas vide on supprime le message de panier vide
 		  const panierVide = document.getElementById("panierVide");
 		  panierVide.remove();
-		  //Rendre visible le bouton pour vider le panier
+
+		  // Rendre visible le bouton pour vider le panier
 		  const clearPanier = document.getElementById("clearPanier");
 		  clearPanier.classList.remove("invisible");
 		  clearPanier.classList.add("visible");  
 
-		  const panierContainer = document.getElementById("panierContainer"); // Récupère le bloc qui contient les articles
+		  const panierContainer = document.getElementById("panierContainer"); // Récupération le bloc qui contient les articles
 
-		  userPanier.forEach(produit => { //fonction pour chaque article dans le panier
+		  userPanier.forEach(produit => { // Fonction pour chaque article dans le panier
 			 
-			const articlePanier = document.createElement("div"); // Créé le bloc article
+			const articlePanier = document.createElement("div"); // Création le bloc article
 			articlePanier.classList.add("panier__item");  // Ajoute des classes pour la mise en page
 		  
 			articlePanier.innerHTML = `<img src="${produit.imageUrl}" alt="${produit.name}" class="panier__item__thumb"><div class="panier__item__body"><h2 class="panier__item__name">${produit.name}</h2><p class="panier__item__option"></p><span class="panier__item__price">${produit.price / 100} €</span></div>`; // Ajoute le contenu des articles
 		  
-			panierContainer.appendChild(articlePanier);
+			panierContainer.appendChild(articlePanier); // Création des articles enfants du bloc container
 			
 		  });
 
 } else {
 		 }
 
+/************** Ajout du choix des couleurs *********************/
 
-// Ajout des choix de couleurs
  var colorContainer = document.getElementsByClassName("panier__item__option");
 		 
  for (var i = 0; i < colorContainer.length; i++) {
@@ -57,15 +46,16 @@ if(userPanier.length > 0){
 	colorContainer.item(i).innerHTML = colorChoise[i];
 	 }
 
+/*************** Bouton pour vider le panier ********************/
 
-// Vider le panier
 clearPanier.addEventListener("click", async function() {
 	localStorage.clear();
 	window.location.reload()
 });
 
 
-// Calcul du total
+/**************** Calcul du total *************************/
+
 const totalContainer = document.getElementById("totalprice")
 let totalPrice = 0;
       userPanier.forEach((produit)=>{
@@ -74,7 +64,7 @@ let totalPrice = 0;
 totalContainer.innerHTML = `${totalPrice}`;
 
 
-/********** Fonction vérification remplissage panier *********/
+/********** Fonction vérification remplissage panier avant envoi *********/
 
   checkPanier = () =>{
 	if(userPanier.length < 1 || userPanier == null){
@@ -82,17 +72,15 @@ totalContainer.innerHTML = `${totalPrice}`;
 	  alert("Votre panier est vide");
 	  return false;
   } else {
-	  console.log("Administration : Le panier n'est pas vide")
-	  //Si le panier n'est pas vide on rempli le products envoyé à l'API
+	  // Si le panier n'est pas vide on rempli avec les aid des produits le products envoyé à l'API
 	  JSON.parse(localStorage.getItem("userPanier")).forEach((produit) =>{
 		products.push(produit._id);
 	  });
-	  console.log("Administration : Ce tableau sera envoyé à l'API : " + products)
 	  return true;
   }
 };
 
-//************** Fonction requête POST ********************/
+/************** Fonction requête POST ********************/
 
   envoiCommande = (orderRequest) => {
 	return new Promise((resolve)=>{
@@ -100,18 +88,15 @@ totalContainer.innerHTML = `${totalPrice}`;
 		request.onreadystatechange = function() {
 			if(this.readyState == XMLHttpRequest.DONE && this.status == 201) 
 			{
-		console.log("Connecté pour la requête POST")
-		//Sauvegarde du retour de l'API dans la sessionStorage pour affichage dans confirm.html
-		sessionStorage.setItem("order", this.responseText);
+			console.log("Connecté pour la requête POST")
+			
+			//Sauvegarde du retour de l'API dans la sessionStorage pour affichage dans confirm.html
+			sessionStorage.setItem("order", this.responseText);
+			resolve(JSON.parse(this.responseText));
+			console.log(this.responseText)
 
-		//Chargement de la page de confirmation
-		
-
-		resolve(JSON.parse(this.responseText));
-		console.log(this.responseText)
-
-		//Redirection vers la page confirmation
-	window.location.href="confirm.html";
+			//Redirection vers la page confirmation
+			window.location.href="confirm.html";
 
 	}
 };
@@ -121,40 +106,43 @@ request.send(orderRequest);
 });
 };
 
+/*********** Récupération des données du formulaire et envoi *******************/
 
-document.getElementById("formulaire").addEventListener("submit", function (e) {
-    e.preventDefault();
-	checkPanier();
 
-	// Récupération des données du formulaire de contact
+document.getElementById("formulaire").addEventListener("submit", function (e) { // Au submit du formulaire
+    e.preventDefault(); // Pour garder les pattern et title actifs
+	checkPanier(); // Vérification remplissage du panier
+
+	// Récupération des blocs du formulaire de contact
 	const formNom = document.getElementById("nom");
 	const formPrenom = document.getElementById("prenom");
 	const formEmail = document.getElementById("email");
 	const formAdresse = document.getElementById("adresse");
 	const formVille = document.getElementById("ville");
 
+	// Récupération des valeurs du formulaire de contact et ajout dans contact
 	contact = {
-		firstName : formNom.value,
-		lastName : formPrenom.value,
+		firstName : formPrenom.value,
+		lastName : formNom.value,
 		address : formAdresse.value,
 		city : formVille.value,
 		email : formEmail.value
 	}
 
-	//Création de l'objet à envoyer
+	// Création de l'objet à envoyer à l'API
 		let order = {
 			contact,
 			products
 		}
 
-	//Conversion en JSON
+	// Conversion en JSON
 	   let orderRequest = JSON.stringify(order);
 	   console.log("Administration : " + orderRequest);
 
-	//Envoi de l'objet via la function
+	//Envoi de l'objet via la requête POST
 	   envoiCommande(orderRequest);
   
-	//Une fois la commande faite retour à l'état initial des tableaux/objet/localStorage
+	// Une fois la commande passée, retour à l'état initial
 	   contact = {};
 	   products = [];
 	   localStorage.clear();
