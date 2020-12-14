@@ -1,52 +1,23 @@
-/********* Préparation du panier dans localStorage **********/
-
-if(localStorage.getItem("userPanier")){
-	console.log("Administration : le panier de l'utilisateur existe dans le localStorage"); // Panier déjà existant, on ne fait rien
-}else{
-	console.log("Administration : Le panier n'existe pas, il va être créé et envoyé vers le localStorage");
-  
-  	let panierInit = [];	// Le panier est un tableau de produits
-  	localStorage.setItem("userPanier", JSON.stringify(panierInit)); // Envoi vers localStorage
-  };
-
-//L'user a maintenant un panier
-	let userPanier = JSON.parse(localStorage.getItem("userPanier"));
-
-/********* Préparation du choix de la couleur dans localStorage ***********/
-
-	if(localStorage.getItem("colorChoise")){
-		console.log("Administration : le choix de la couleur existe dans le localStorage"); // Choix de la couleur déjà existant, on ne fait rien
-	}else{
-		console.log("Administration : le choix de la couleur n'existe pas, il va être créé et envoyé vers le localStorage");
-		  
-		  let colorInit = []; // Le choix de la couleur est un tableau des couleurs choisies
-		  localStorage.setItem("colorChoise", JSON.stringify(colorInit)); // Envoi vers localStorage
-	  };
-	
-//L'user a maintenant un selecteur de couleur
-		let colorChoise = JSON.parse(localStorage.getItem("colorChoise"));
-	
-
 /****************** Appel de l'API d'un seul nounours ***********/
-
 
 // URL de l'api des nounours
 const urlServer = "http://localhost:3000/api/teddies/";
 
 // Appel de l'API avec une Promise
-getTeddy = (id) => {
+getTeddy = (id, removeError = true) => {
 	return new Promise((resolve) => {
 	  let request = new XMLHttpRequest();
 	  request.onreadystatechange = function () {
 		if (this.readyState == XMLHttpRequest.DONE && this.status == 200) { // Si la requête a abouti
 		  resolve(JSON.parse(this.responseText));
 		  console.log("Connecté");
-		  const error = document.getElementById("error");
-		  error.remove(); // Supprime le message d'erreur de connection
-		  const containerButton = document.getElementById("containerButton");
-		  containerButton.classList.remove("invisible");
-		  containerButton.classList.add("visible");  
-		} else {
+		  if (removeError) {
+			const error = document.getElementById("error");
+			error.remove(); // Supprime le message d'erreur de connection
+			const containerButton = document.getElementById("containerButton");
+			containerButton.classList.remove("invisible");
+			containerButton.classList.add("visible");
+		  }
 		}
 	  };
 	  request.open("GET", urlServer + id); // Envoi de la requête avec l'URL de l'API + l'id du nounours
@@ -113,7 +84,7 @@ const ajoutPanier = document.getElementById("ajoutpanier");
 ajoutPanier.addEventListener("click", async function(event) { // Ecouter le clic sur le bouton d'ajout au panier
 	event.preventDefault();
 
-	const produits = await getTeddy(id);
+	const produits = await getTeddy(id, false);
 
 	// Récupération du panier dans le localStorage, ajout du produit et renvoi
 	let userPanier = JSON.parse(localStorage.getItem("userPanier"));
@@ -147,4 +118,4 @@ ajoutPanier.addEventListener("click", async function(event) { // Ecouter le clic
 
 	// Redirection vers la page panier
 	window.location.href="panier.html"
-	});
+});

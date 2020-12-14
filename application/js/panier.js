@@ -1,15 +1,8 @@
-/*********** Récupération du panier et du choix de la couleur dans localStorage **********/
-
-let userPanier = JSON.parse(localStorage.getItem("userPanier"));
-
-let colorChoise = JSON.parse(localStorage.getItem("colorChoise"));
-
 //Initialisation du tableau et objet demandé par l'API /order pour la commande
 let contact;
 let products = [];
 
 /*************** Vérification de remplissage du panier et mise en page ****************/
-
 
 if(userPanier.length > 0){
          // Si il n'est pas vide on supprime le message de panier vide
@@ -68,14 +61,8 @@ totalContainer.innerHTML = `${totalPrice}`;
 
   checkPanier = () =>{
 	if(userPanier.length < 1 || userPanier == null){
-	  console.log("ERROR : le localStorage ne contient pas de panier")
-	  alert("Votre panier est vide");
 	  return false;
   } else {
-	  // Si le panier n'est pas vide on rempli avec les aid des produits le products envoyé à l'API
-	  JSON.parse(localStorage.getItem("userPanier")).forEach((produit) =>{
-		products.push(produit._id);
-	  });
 	  return true;
   }
 };
@@ -93,11 +80,19 @@ totalContainer.innerHTML = `${totalPrice}`;
 			//Sauvegarde du retour de l'API dans la sessionStorage pour affichage dans confirm.html
 			sessionStorage.setItem("order", this.responseText);
 			resolve(JSON.parse(this.responseText));
-			console.log(this.responseText)
+			console.log(this.responseText);
+
+			// Une fois la commande passée, retour à l'état initial
+			localStorage.clear(); 
 
 			//Redirection vers la page confirmation
 			window.location.href="confirm.html";
 
+
+	}
+	else {
+		console.log("Erreur de connexion")
+		setTimeout(function() { alert("Erreur de connexion : merci de réessayer plus tard"); }, 500);
 	}
 };
 request.open("POST", "http://localhost:3000/api/teddies/order");
@@ -111,7 +106,12 @@ request.send(orderRequest);
 
 document.getElementById("formulaire").addEventListener("submit", function (e) { // Au submit du formulaire
     e.preventDefault(); // Pour garder les pattern et title actifs
-	checkPanier(); // Vérification remplissage du panier
+	if (checkPanier() === false){
+		console.log("Erreur : le panier est vide")
+		alert("Votre panier est vide");
+	}
+		
+	 else if (checkPanier() === true) { // Vérification remplissage du panier
 
 	// Récupération des blocs du formulaire de contact
 	const formNom = document.getElementById("nom");
@@ -129,6 +129,12 @@ document.getElementById("formulaire").addEventListener("submit", function (e) { 
 		email : formEmail.value
 	}
 
+	// Remplissage avec les id des produits le products envoyé à l'API
+	let products = [];
+	JSON.parse(localStorage.getItem("userPanier")).forEach((produit) =>{
+	  products.push(produit._id);
+	});
+
 	// Création de l'objet à envoyer à l'API
 		let order = {
 			contact,
@@ -141,10 +147,5 @@ document.getElementById("formulaire").addEventListener("submit", function (e) { 
 
 	//Envoi de l'objet via la requête POST
 	   envoiCommande(orderRequest);
-  
-	// Une fois la commande passée, retour à l'état initial
-	   contact = {};
-	   products = [];
-	   localStorage.clear();
-
+	}
 });

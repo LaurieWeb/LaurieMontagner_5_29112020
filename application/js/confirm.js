@@ -27,4 +27,3 @@ if(sessionStorage.getItem("order") != null){ // Vérification qu'une commande à
   alert("C'est une erreur, vous n'avez pas passé de commande.");
   window.location.href="index.html";
 }
-

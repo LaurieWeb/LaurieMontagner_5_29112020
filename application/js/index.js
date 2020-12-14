@@ -1,17 +1,3 @@
-/********* Préparation du panier dans localStorage **********/
-
-if(localStorage.getItem("userPanier")){
-	console.log("Administration : le panier de l'utilisateur existe dans le localStorage"); // Panier déjà existant, on ne fait rien
-}else{
-	console.log("Administration : Le panier n'existe pas, il va être créé et envoyé dans localStorage");
-  	
-  	let panierInit = []; //Le panier est un tableau de produits
-  	localStorage.setItem("userPanier", JSON.stringify(panierInit)); // Envoi vers localStorage
-  };
-
-let userPanier = JSON.parse(localStorage.getItem("userPanier")); // Récupération du panier de l'utilisateur
-
-
 /****************** Appel de l'API des nounours ***********/
 
 // URL de l'api des nounours
