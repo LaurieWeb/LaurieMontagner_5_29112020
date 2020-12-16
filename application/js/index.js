@@ -8,10 +8,10 @@ getAllTeddies = () => {
 	return new Promise((resolve) => {
 	  let request = new XMLHttpRequest();
 	  request.onreadystatechange = function () {
-		if (this.readyState == XMLHttpRequest.DONE && this.status == 200) { // si la requête a abouti
-		  resolve(JSON.parse(this.responseText));
-		  console.log("Connecté");
-		  error = document.getElementById("error");
+		if (this.readyState == XMLHttpRequest.DONE && this.status == 200) { // Si la requête a abouti (200 = "OK" dans les HTTP Status Messages)
+		  resolve(JSON.parse(this.responseText)); // Converti la réponse fournie par la requête
+		  console.log("Connecté"); 
+		  error = document.getElementById("error"); // Récupère la div contenant le message d'erreur
 		  error.remove(); // Supprime le message d'erreur de connection
 		} else {
 			console.log("Erreur de connection");
@@ -45,4 +45,4 @@ function renderProduct(productName, productId, productImg, productPrice) {
   produits.appendChild(article); // Créé les bloc articles en enfants du bloc produits
 }
 
-affichageProduits();
+affichageProduits(); // Appelle la fonction créant les tableaux des produits finissant la MEP

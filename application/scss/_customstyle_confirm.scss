@@ -1,8 +1,9 @@
 .confirm {
     background-color: $primary;
     border-radius: 15px;
-    height: 300px;
+    min-height: 300px;
     padding: 20px;
+    margin-bottom: 50px;
     &__text {
         margin-top: 30px;
     }

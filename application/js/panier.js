@@ -18,7 +18,7 @@ if(userPanier.length > 0){
 
 		  userPanier.forEach(produit => { // Fonction pour chaque article dans le panier
 			 
-			const articlePanier = document.createElement("div"); // Création le bloc article
+			const articlePanier = document.createElement("div"); // Création du bloc article
 			articlePanier.classList.add("panier__item");  // Ajoute des classes pour la mise en page
 		  
 			articlePanier.innerHTML = `<img src="${produit.imageUrl}" alt="${produit.name}" class="panier__item__thumb"><div class="panier__item__body"><h2 class="panier__item__name">${produit.name}</h2><p class="panier__item__option"></p><span class="panier__item__price">${produit.price / 100} €</span></div>`; // Ajoute le contenu des articles
@@ -27,14 +27,13 @@ if(userPanier.length > 0){
 			
 		  });
 
-} else {
-		 }
+}
 
 /************** Ajout du choix des couleurs *********************/
 
  var colorContainer = document.getElementsByClassName("panier__item__option");
 		 
- for (var i = 0; i < colorContainer.length; i++) {
+ for (var i = 0; i < colorContainer.length; i++) { // Pour chacun des choix de couleur et pour chaque container de couleur, écrire la couleur correspondante
 	let colorChoise = JSON.parse(localStorage.getItem("colorChoise"));
 	colorContainer.item(i).innerHTML = colorChoise[i];
 	 }

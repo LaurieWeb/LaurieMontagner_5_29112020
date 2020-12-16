@@ -79,8 +79,7 @@ abbr[data-original-title] {
   text-decoration: underline;
   text-decoration: underline dotted;
   cursor: help;
-  border-bottom: 0;
-  text-decoration-skip-ink: none; }
+  border-bottom: 0; }
 
 address {
   margin-bottom: 1rem;
@@ -3566,8 +3565,6 @@ input[type="button"].btn-block {
       display: inline-block;
       width: 100%; } }
 
-.accordion {
-  overflow-anchor: none; }
   .accordion > .card {
     overflow: hidden; }
     .accordion > .card:not(:last-of-type) {
@@ -7861,7 +7858,9 @@ main {
   display: flex;
   padding: 5px;
   position: relative;
-  margin-bottom: 20px; }
+  margin-bottom: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis; }
   .panier__item__card {
     padding: 20px;
     min-height: 645px; }
@@ -7880,8 +7879,9 @@ main {
 .confirm {
   background-color: #f6e8f2;
   border-radius: 15px;
-  height: 300px;
-  padding: 20px; }
+  min-height: 300px;
+  padding: 20px;
+  margin-bottom: 50px; }
   .confirm__text {
     margin-top: 30px; }
 

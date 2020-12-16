@@ -28,6 +28,8 @@
         padding: 5px;
         position: relative;
         margin-bottom: 20px;
+        overflow: hidden;
+        text-overflow: ellipsis;
         &__card {
             padding: 20px;
             min-height: 645px;
